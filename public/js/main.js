@@ -14,6 +14,7 @@
 		(function ($, window, document, undefined) {
 		var $form = $('#contact-form');
 		$form.submit(function (e) {
+            //$form.html('<div class="message-success"></div>');
 			// remove the error class
 			$('.form-group').removeClass('has-error');
 			$('.help-block').remove();
@@ -23,33 +24,37 @@
 			});
 			// get the form data
 			var formData = {
-				'name' : $('input[name="form-name"]').val(),
-				'email' : $('input[name="form-email"]').val(),
-				'attending': $('.switch-field input[type="radio"]:checked').attr('id'),
-				'guest': guestsList.join(', ')
+				'nombre' : $('input[name="nombre"]').val(),
+				'cell' : $('input[name="cell"]').val(),
+                'adultos': $('input[name="adultos"]').val(),
+                'adolecente': $('input[name="adolecente"]').val(),
+                'menor': $('input[name="menor"]').val()
+				//'attending': $('.switch-field input[type="radio"]:checked').attr('id'),
+				//'guest': guestsList.join(', ')
 			};
 			// process the form
 			$.ajax({
 				type : 'POST',
-				url  : 'form.php',
+				url  : 'https://sheetdb.io/api/v1/utfeu20maath4',
 				data : formData,
 				dataType : 'json',
 				encode : true
 			}).done(function (data) {
+                console.log(data)
 				// handle errors
-				if (!data.success) {
-					if (data.errors.name) {
-						$('#name-field').addClass('has-error');
-						$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
-					}
-					if (data.errors.email) {
-						$('#email-field').addClass('has-error');
-						$('#email-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.email + '</span>');
-					}
-				} else {
-					// display success message
-					$form.html('<div class="message-success">' + data.message + '</div>');
-				}
+//				if (!data.success) {
+//					if (data.errors.nombre) {
+//						$('#name-field').addClass('has-error');
+//						$('#name-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.name + '</span>');
+//					}
+//					if (data.errors.cell) {
+//						$('#email-field').addClass('has-error');
+//						$('#email-field').find('.col-sm-6').append('<span class="help-block">' + data.errors.email + '</span>');
+//					}
+//				} else {
+//					// display success message
+					$form.html('<div class="col-md-12 text-center heading"><h2>¡Gracias!</h2></div>');
+//				}
 			}).fail(function (data) {
 				// for debug
 				// console.log(data);
@@ -276,7 +281,7 @@
 			var timeinterval = setInterval(updateClock, 1000);
 		}
 		// set your wedding date here
-		var deadline = 'November 28 2022 17:30:00 GMT+0300';
+		var deadline = 'October 28 2022 13:00:00 GMT+0300';
 		if (countdown){
 			initializeClock('timer', deadline);
 		}
